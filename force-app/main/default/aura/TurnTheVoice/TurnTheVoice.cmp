@@ -1,0 +1,43 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" controller="TurnTheVoiceController" access="global" >
+    <aura:attribute name="value" type="string" default=""></aura:attribute> 
+    <aura:attribute name="recognition" type="Object"/>
+    <aura:attribute name="IsTurning" type="Boolean"/>
+    <aura:attribute name="savetext" type="String"/>
+    <aura:attribute name="title" type="String"/>
+
+    <lightning:card title="文字起こしツール" iconName="standard:quick_text">
+        <div class="slds-m-around_medium">
+            <aura:if isTrue="{!v.IsTurning}">
+                <lightning:dynamicIcon type="eq" option="play" alternativeText="音声認識中"/>
+            </aura:if>
+            <p>聴き取り欄</p>
+            <div id="result-div" class="custom-box slds-box"></div>
+            <p>編集欄</p>
+            <!-- <lightning:inputRichText aura:id="speechText1" label="編集欄" value="{!v.value}"/>-->
+            <lightning:inputRichText aura:id="speechText1" label="編集欄" value="{!v.value}"/>
+            <center>
+                <br />
+                <aura:if isTrue="{!v.IsTurning}">
+                    <lightning:button variant="brand" label="開始" title="クリックして文字起こしを開始" iconName="utility:unmuted" disabled="true"/>
+                    <lightning:button variant="success" label="終了" title="文字起こしを終了（放っておいても勝手に終了します。）" iconName="utility:muted" onclick="{! c.handleSpeechStop }"/>
+                    <lightning:button variant="Neutral" label="クリア" title="クリア" iconName="utility:clear" onclick="{! c.handleAddText }"/>
+                <aura:set attribute="else">
+                    <lightning:button variant="brand" label="開始" title="クリックして文字起こしを開始" iconName="utility:unmuted" onclick="{! c.handleSpeechText }"/>
+                    <lightning:button variant="success" label="終了" title="文字起こしを終了（放っておいても勝手に終了します。）" iconName="utility:muted" disabled="true"/>
+                    <lightning:button variant="Neutral" label="クリア" title="クリア" iconName="utility:clear" onclick="{! c.handleAddText }"/>
+                </aura:set>
+                </aura:if>
+                <hr />
+                <lightning:input name="saveContent" label="タイトル" required="true" value="{! v.title }"/>
+                <br />
+                <lightning:button variant="brand" label="メモに保存" title="メモに編集欄を保存します。" iconName="utility:record_create" onclick="{! c.handleSaveContent }"/>
+            </center>
+
+            <!-- Display Lightning Data Service errors -->
+            <aura:if isTrue="{!not(empty(v.newContactError))}">
+                <div class="recordError">
+                    {!v.newContentNoteError}</div>
+            </aura:if>
+        </div>
+    </lightning:card>
+</aura:component>
