@@ -8,12 +8,11 @@
             var toastEvent = $A.get("e.force:showToast");
             toastEvent.setParams({
                 "title": "Sorry...",
-                "message": "この端末ではこの機能は使えません。",
-                "type": "error"
+                "message": "この端末ではこの機能は使えません。"
             });
             toastEvent.fire();
         }
-		  // const recognition = new window.SpeechRecognition();
+
         recognition = new window.SpeechRecognition();
         recognition.lang = 'ja-JP';
         recognition.continuous = true;
@@ -38,12 +37,10 @@
         }
           
         recognition.onstart = function() {
-            console.log('音声認識サービスに接続されました。');
             component.set("v.IsTurning", true);
         }
 
         recognition.onend = function() {
-            console.log('音声認識サービスが切断されました。');
             component.set("v.IsTurning", false);
         }
 
@@ -64,7 +61,8 @@
             var toastEvent = $A.get("e.force:showToast");
             toastEvent.setParams({
                 "title": "Success!",
-                "message": "保存しました！"
+                "message": "保存しました！",
+                "type": "success"
             });
             toastEvent.fire();
             handleAddText();
