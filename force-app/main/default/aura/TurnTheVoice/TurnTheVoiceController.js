@@ -65,7 +65,8 @@
                 "type": "success"
             });
             toastEvent.fire();
-            handleAddText();
+            document.querySelector('#result-div').innerHTML = '';
+            component.set("v.value", "");
         });
         $A.enqueueAction(action);
     }
